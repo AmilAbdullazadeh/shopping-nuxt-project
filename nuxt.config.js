@@ -55,7 +55,7 @@ export default {
     ],
 
     axios: {
-        // baseURL: "http://localhost:3000/api"
+        baseURL: "http://localhost:3000/api"
     },
 
     /*
@@ -65,6 +65,6 @@ export default {
     build: {},
     serverMiddlewares: [
         bodyParser.json(),
-        "@/api"
+        "~/api"
     ]
 }

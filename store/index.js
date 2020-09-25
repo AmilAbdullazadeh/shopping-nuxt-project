@@ -7,24 +7,37 @@ export const state = () => ({
 })
 
 export const actions = {
-    async nuxtServerInit(vuexContext, context) {
+    nuxtServerInit(vuexContext, context) {
         console.log("Server is working")
-        const response = await context.$axios.$get("http://localhost:3000/api")
+        const response = context.$axios.get("/")
             .then(response => {
+                console.log("Response: " + response.data.products)
                 vuexContext.commit("setProducts", response.data.products)
-                vuexContext.commit("setCart", response.data.products)
+                vuexContext.commit("setCart", response.data.cart.items)
+                vuexContext.commit("setTotalPrice", response.data.cart.totalPrice)
             }).catch(e => console.log(e))
-
+        return response
     },
     addToCart(vuexContext, product) {
         this.$store.post("/add-to-cart", {product: product})
             .then(response => {
                 vuexContext.commit("setCart", response.data.cart.items)
+                vuexContext.commit("setTotalPrice", response.data.cart.totalPrice)
             }).catch(e => console.log(e))
     },
     removeProduct(vuexContext, product) {
+        this.$axios.post("/remove-product", {product: product})
+            .then(response => {
+                vuexContext.commit("setCart", response.data.cart.items)
+                vuexContext.commit("setTotalPrice", response.data.cart.totalPrice)
+            })
     },
     changeCount(vuexContext, product) {
+        this.$axios.post("/change-count", {product: product})
+            .then(response => {
+                vuexContext.commit("setCart", response.data.cart.items)
+                vuexContext.commit("setTotalPrice", response.data.cart.totalPrice)
+            })
     }
 }
 

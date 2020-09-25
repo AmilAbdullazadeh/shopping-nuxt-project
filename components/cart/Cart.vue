@@ -1,8 +1,8 @@
 <template>
   <div class="cart-container card shadow">
     <h3 class="text-center ">Cart</h3>
-    <Alert/>
-    <CartItems :cart="cart"/>
+    <Alert v-if="cart.length == 0 || !cart"/>
+    <CartItems v-else :cart="cart"/>
     <CartFooter/>
   </div>
 </template>
